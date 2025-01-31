@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        .gallery-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .main-image {
+            width: 500px;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .thumbnails {
+            display: flex;
+            margin-top: 20px;
+        }
+        .thumbnails img {
+            width: 100px;
+            height: 80px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: transform 0.3s ease-in-out;
+        }
+        .thumbnails img:hover {
+            transform: scale(1.1);
+        }
+        .nav-buttons {
+            margin-top: 10px;
+        }
+        .nav-buttons button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+        }
+        .nav-buttons button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery-container">
+        <img id="mainImage" class="main-image" src="001.jpeg" alt="Gallery Image">
+        <div class="nav-buttons">
+            <button onclick="prevImage()">&#8592; Prev</button>
+            <button onclick="nextImage()">Next &#8594;</button>
+        </div>
+        <div class="thumbnails" id="thumbnails"></div>
+    </div>
+    
+    <script>
+        const images = [
+            "001.jpeg",
+            "002.jpeg",
+            "1.jpeg",
+            "2.jpeg",
+            "3.jpeg",
+            "001.jpeg",
+            "002.jpeg",
+            "1.jpeg",
+            "3.jpeg",
+            "2.jpeg",
+            "001.jpeg",
+            "002.jpeg",
+            "2.jpeg"
+        ];
+        
+        let currentIndex = 0;
+        const mainImage = document.getElementById("mainImage");
+        const thumbnailsContainer = document.getElementById("thumbnails");
+
+        function updateMainImage(index) {
+            mainImage.src = images[index];
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            updateMainImage(currentIndex);
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            updateMainImage(currentIndex);
+        }
+
+        images.forEach((imgSrc, index) => {
+            const imgElement = document.createElement("img");
+            imgElement.src = imgSrc;
+            imgElement.alt = "Thumbnail " + (index + 1);
+            imgElement.onclick = () => {
+                currentIndex = index;
+                updateMainImage(currentIndex);
+            };
+            thumbnailsContainer.appendChild(imgElement);
+        });
+    </script>
+</body>
+</html>
